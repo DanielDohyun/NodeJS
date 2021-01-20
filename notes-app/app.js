@@ -23,7 +23,7 @@ const notes = require('./notes');
 // console.log(validator.isURL('https:/google.com'));
 
 // console.log(chalk.green('success'));
-// console.log(chalk.bold('success'));
+// console.log(chalk.bold('fail'));
 // console.log(chalk.bold.green('success'));
 // console.log(chalk.bold.inverse.green('success'));
 // console.log(chalk.bgRed.green('success'));
