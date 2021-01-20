@@ -8,17 +8,8 @@
 const validator = require('validator');
 const chalk = require('chalk');
 const yargs = require('yargs');
-// const name = require('./utils');
-// const add = require('./utils');
 const notes = require('./notes');
 
-// const sum = add(4, -2);
-
-// const print = notes();
-
-// console.log(name);
-// console.log(sum);
-// console.log(print);
 
 // console.log(validator.isEmail('danielxcvd.com'));
 // console.log(validator.isURL('https:/google.com'));
@@ -47,8 +38,22 @@ yargs.version('1.1.0');
 yargs.command({
     command: 'add',
     describe: 'add a new note',
-    handler: function () {
-        console.log('adding a new note')
+    builder: {
+        title: {
+            describe: 'Note title',
+            //have to provide description in order for this command to work correctly
+            demandOption: 'true',
+            type: 'string',
+        },
+        hobby: {
+            describe: 'My hobby',
+            demandOption: 'true',
+            type: 'string'
+        },
+    },
+    handler: function (argv) {
+        console.log('Title: ' + argv.title);
+        console.log('My hobby is: ' + argv.hobby);
     }
 });
 
@@ -80,5 +85,6 @@ yargs.command({
 });
 
 // console.log(process.argv);
-console.log(yargs.argv);
+// console.log(yargs.argv);
+yargs.parse();
 
