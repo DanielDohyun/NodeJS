@@ -52,8 +52,7 @@ yargs.command({
         },
     },
     handler: function (argv) {
-        console.log('Title: ' + argv.title);
-        console.log('My hobby is: ' + argv.hobby);
+        notes.addNote(argv.title, argv.hobby);
     }
 });
 
