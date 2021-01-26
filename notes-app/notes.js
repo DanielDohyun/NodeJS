@@ -9,9 +9,12 @@ const addNote = (title, hobby) => {
     const notes = loadNotes();
 
     const duplicateNotes = notes.filter(note =>
-        note.title === title )
+        note.title === title);
+    
+    // filter returns arr of matches whereas find returns the first match if there is any 
+    const duplicateNote = notes.find(note => note.title === title);
 
-    if (duplicateNotes.length === 0) {
+    if (!duplicateNote) {
         notes.push({
             title: title,
             hobby: hobby,
@@ -77,10 +80,22 @@ const listNotes = () => {
     })
 }
 
+const readNote = (title) => {
+    const notes = loadNotes();
+    const note = notes.find(note => note.title === title);
+    if (!note) {
+        console.log(chalk.red('Note not found'));
+    } else {
+        console.log(chalk.bold(note.title));
+        console.log(note.hobby);
+    }
+};
+
 // when you try to export multiple fxn/data, export them as an object
 module.exports = {
     getNotes: getNotes,
     addNote: addNote,
     removeNote: removeNote,
     listNotes: listNotes,
+    readNote: readNote,
 };
