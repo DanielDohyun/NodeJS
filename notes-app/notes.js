@@ -1,16 +1,15 @@
 const chalk = require('chalk');
 const fs = require('fs');
 
-const getNotes = function () {
+const getNotes = () => {
     return 'Your notes...'
 }
 
-const addNote = function (title, hobby) {
+const addNote = (title, hobby) => {
     const notes = loadNotes();
 
-    const duplicateNotes = notes.filter(function (note) {
-        return note.title === title 
-    })
+    const duplicateNotes = notes.filter(note =>
+        note.title === title )
 
     if (duplicateNotes.length === 0) {
         notes.push({
@@ -24,12 +23,12 @@ const addNote = function (title, hobby) {
     }
 }
 
-const saveNotes = function (notes) {
+const saveNotes = (notes) => {
     const dataJSON = JSON.stringify(notes);
     fs.writeFileSync('notes.json', dataJSON);
 }
 
-const loadNotes = function () {
+const loadNotes = () => {
     try {
         const dataBuffer = fs.readFileSync('notes.json');
         const dataJSON = dataBuffer.toString();
@@ -39,14 +38,14 @@ const loadNotes = function () {
     }
 }
 
-const removeNote = function (title) {
+const removeNote = (title) => {
 
     //load and turn JSON into object
     const binaryData = fs.readFileSync('notes.json');
     const stringData = binaryData.toString();
     const objectData = JSON.parse(stringData);
     
-    const noteChecker = function () {
+    const noteChecker = () => {
         const present = objectData.filter(note => note.title === title)
         if (present.length > 0) {
             //find index of an item that would be removed 
@@ -69,9 +68,19 @@ const removeNote = function (title) {
     noteChecker();
 };
 
+const listNotes = () => {
+    console.log(chalk.bgBlue('Your notes'));
+
+    const notes = loadNotes();
+    notes.forEach(note => {
+        console.log(note.title)
+    })
+}
+
 // when you try to export multiple fxn/data, export them as an object
 module.exports = {
     getNotes: getNotes,
     addNote: addNote,
     removeNote: removeNote,
+    listNotes: listNotes,
 };
