@@ -14,6 +14,8 @@ const addNote = (title, hobby) => {
     // filter returns arr of matches whereas find returns the first match if there is any 
     const duplicateNote = notes.find(note => note.title === title);
 
+    debugger
+
     if (!duplicateNote) {
         notes.push({
             title: title,
