@@ -1,4 +1,5 @@
-const request = require('request');
+const geocode = require('./utils/geocode');
+const forecast = require('./utils/forecast');
 
 const url = 'http://api.weatherstack.com/current?access_key=f75dec76090767ae2467c1b4b4e65ec6&query=toronto';
 
@@ -23,17 +24,12 @@ const url = 'http://api.weatherstack.com/current?access_key=f75dec76090767ae2467
 // })
 
 
-const toronto = 'https://api.mapbox.com/geocoding/v5/mapbox.places/toronto.json?access_token=pk.eyJ1Ijoia2tkaDExMDkiLCJhIjoiY2trcHBpejNxMDc2bjJ2bXUwcW11dHZyMCJ9.84ME-PdBrbc6UtHTC8kmcQ&limit=1'
-
-request({ url: toronto, json: true }, (err, res) => {
-    if (err) { 
-        console.log('Unable to connect to geo service')
-    } else if (res.body.features.length === 0) {
-        console.log('Unable to find location')
-    } else {
-        // features is arr of 1 item
-        const latitude = res.body.features[0].center[1];
-        const longitude = res.body.features[0].center[0];
-        console.log('longitude is ' + longitude + 'latitude is ' + latitude)
-    }
+geocode('toronto', (err, res) => {
+    console.log('error ', err);
+    console.group('data ', res)
 })
+
+forecast(-75.7088, 44.1545, (err, res) => {
+    console.log('Error', err)
+    console.log('Data', res)
+  })
