@@ -23,13 +23,35 @@ const url = 'http://api.weatherstack.com/current?access_key=f75dec76090767ae2467
 //     console.log(`${res.body.current.temperature} + ${res.body.current.precip}`)
 // })
 
+const location = process.argv[2];
 
-geocode('toronto', (err, res) => {
-    console.log('error ', err);
-    console.group('data ', res)
-})
+if (!location) {
+    console.log('please provide a location')
+} else {
+    geocode(location, (err, data) => {
 
-forecast(-75.7088, 44.1545, (err, res) => {
-    console.log('Error', err)
-    console.log('Data', res)
-  })
+        // can either use if and else or return statement
+        // if (err) {
+        //     console.log('error ', err);
+        //     console.log('data ', data)
+        // } else {
+        //     forecast(data.latitude, data.longitude, (err, data) => {
+        //         console.log('Error', err)
+        //         console.log('Data', data)
+        //     })
+        // }
+    
+        if (err) {
+            return console.log('error ', err);
+            
+        } 
+        forecast(data.latitude, data.longitude, (err, res) => {
+            if (err) {
+                    return console.log(err)
+            }
+            console.log(data.location);
+            console.log(res);
+            })
+    
+    })
+}
