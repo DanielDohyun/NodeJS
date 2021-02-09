@@ -28,7 +28,8 @@ const location = process.argv[2];
 if (!location) {
     console.log('please provide a location')
 } else {
-    geocode(location, (err, data) => {
+    //if theres err => 2nd argument is going to be empty and destructuring of undefined item could cause an error. so use empty object as a default value
+    geocode(location, (err, {latitude, longitude, location} = {}) => {
 
         // can either use if and else or return statement
         // if (err) {
@@ -45,11 +46,11 @@ if (!location) {
             return console.log('error ', err);
             
         } 
-        forecast(data.latitude, data.longitude, (err, res) => {
+        forecast(latitude, longitude, (err, res) => {
             if (err) {
                     return console.log(err)
             }
-            console.log(data.location);
+            console.log(location);
             console.log(res);
             })
     
