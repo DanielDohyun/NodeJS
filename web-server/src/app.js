@@ -1,10 +1,16 @@
+const path = require('path');
+
 const express = require('express');
+
 const app = express();
 
-//root url
-app.get('/', (req, res) => {
-    res.send('<h1>Home</h1>');
-});
+console.log(__dirname)
+console.log(path.join(__dirname, '../public'))
+
+const publicDir = path.join(__dirname, '../public')
+
+//way to customize a server
+app.use(express.static(publicDir))
 
 app.get('/people', (req, res) => {
     res.send([{
@@ -18,8 +24,8 @@ app.get('/people', (req, res) => {
     ]);
 });
 
-app.get('/about', (req, res) => {
-    res.send('<h1>About page</h1>');
+app.get('/contact', (req, res) => {
+    res.send('<h1>contact page</h1>');
 });
 
 app.get('/weather', (req, res) => {
@@ -28,10 +34,6 @@ app.get('/weather', (req, res) => {
         location: 'toronto'
     })
 })
-
-app.get('/help', (req, res) => {
-    res.send('help page');
-});
 
 
 //starts the app
