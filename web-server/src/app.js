@@ -1,5 +1,4 @@
 const path = require('path');
-
 const express = require('express');
 
 const app = express();
@@ -9,8 +8,15 @@ console.log(path.join(__dirname, '../public'))
 
 const publicDir = path.join(__dirname, '../public')
 
+app.set('view engine', 'hbs');
+
 //way to customize a server
-app.use(express.static(publicDir))
+//static means, assets do not change
+app.use(express.static(publicDir));
+
+app.get('/', (req, res) => {
+    res.render('index')
+})
 
 app.get('/people', (req, res) => {
     res.send([{
@@ -34,7 +40,6 @@ app.get('/weather', (req, res) => {
         location: 'toronto'
     })
 })
-
 
 //starts the app
 app.listen(3000, () => {
