@@ -65,6 +65,23 @@ app.get('/weather', (req, res) => {
     })
 })
 
+app.get('/help/*', (req, res) => {
+    res.render('404', {
+        title: '404',
+        name: 'Daniel',
+        errorMsg: 'Help article not found'
+    })
+})
+
+//* = wildcard, match anything that hasn't been matched so far
+app.get('*', (req, res) => {
+    res.render('404', {
+        title: '404',
+        name: 'Daniel',
+        errorMsg: 'Page not found'
+    })
+})
+
 //starts the app
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
