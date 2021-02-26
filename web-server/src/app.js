@@ -1,6 +1,10 @@
 const path = require('path');
 const express = require('express');
 const hbs = require('hbs');
+const geocode = require('./utils/geocode');
+const forecast = require('./utils/forecast');
+
+const url = 'http://api.weatherstack.com/current?access_key=f75dec76090767ae2467c1b4b4e65ec6&query=toronto';
 
 const app = express();
 
@@ -59,9 +63,46 @@ app.get('/contact', (req, res) => {
 });
 
 app.get('/weather', (req, res) => {
+    if (!req.query.address) {
+        return res.send({
+            error: 'You must provide an address'
+        })
+    }
+
+    geocode(req.query.address, (err, {latitude, longitude, location} ) => {
+    
+        if (err) {
+            return res.send({ err });
+        } 
+
+        forecast(latitude, longitude, (err, forecastData) => {
+            if (err) {
+                    return res.send({err})
+            }
+            res.send({
+                forecast: forecastData,
+                location,
+                address: req.query.address
+            })
+
+            })
+    
+    })
+
+})
+
+app.get('/products', (req, res) => {
+
+    if (!req.query.search) {
+        //write return => code beneath does not run => can avoid err 
+        return res.send({
+            error: 'You must provide a search term'
+        })
+    }
+
+    console.log(req.query)
     res.send({
-        forecast: `It's Sunny`,
-        location: 'toronto'
+        products: [],
     })
 })
 
