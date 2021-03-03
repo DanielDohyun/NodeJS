@@ -8,6 +8,8 @@ const url = 'http://api.weatherstack.com/current?access_key=f75dec76090767ae2467
 
 const app = express();
 
+const port = process.env.PORT || 3000;
+
 // __dirname = src
 
 //define paths for express configs
@@ -124,7 +126,7 @@ app.get('*', (req, res) => {
 })
 
 //starts the app
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+app.listen(port, () => {
+    console.log('Server is running on port ' + port);
 });
 
