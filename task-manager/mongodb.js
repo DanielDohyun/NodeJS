@@ -13,7 +13,7 @@ const databaseName = 'task-manager';
 
 MongoClient.connect(connectionURL, { useNewUrlParser: true, useUnifiedTopology: true }, (err, client) => {
     if (err) {
-        return console.log('Unable to connect to database')
+        return console.log('Unable to connect to database', err)
     }
     
     const db = client.db(databaseName);
