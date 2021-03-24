@@ -12,13 +12,14 @@ const Task = require('./src/models/task');
 //     console.log(res);
 // }).catch((e) => {
 //     console.log(e);
-// })
+// });
 
 Task.findByIdAndDelete('6051533ca161b001e49dd5cf').then((task) => {
     console.log(task);
-    return Task.countDocuments({completed: false})
+    return Task.countDocuments({ completed: false })
 }).then((res) => {
     console.log(res);
 }).catch((e) => {
     console.log(e);
-})
+});
+
