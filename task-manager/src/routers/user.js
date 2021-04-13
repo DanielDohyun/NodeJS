@@ -16,12 +16,6 @@ router.post('/users', async (req, res) => {
         res.status(400).send(e);
 
     }
-
-    // user.save().then(() => {
-    //     res.status(201).send(user);
-    // }).catch((e) => {
-    //     res.status(400).send(e);
-    // })
 })
 
 router.get('/users', async (req, res) => {
