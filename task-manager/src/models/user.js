@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const bcrypt = require('bcryptjs');
 
-const User = mongoose.model('User', {
+const userSchema = new mongoose.Schema({
     name: {
         type: String,
         //validation name is required
@@ -45,6 +46,21 @@ const User = mongoose.model('User', {
         }
     }
 })
+
+
+//middleware to create hashedPassword
+// first argument = name of the event, 2nd = func to run. use standard function bc need to use this and bind keyword
+userSchema.pre('save', async function (next) {
+    const user = this;
+
+    if (user.isModified('password')) {
+        user.password = await bcrypt.hash(user.password, 8)
+    }
+
+    next()
+})
+
+const User = mongoose.model('User', userSchema)
 
 //to create a new instance of user
 // const me = new User({

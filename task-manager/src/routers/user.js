@@ -1,4 +1,6 @@
 const express = require('express')
+const { Mongoose } = require('mongoose')
+const { findByIdAndUpdate } = require('../models/user')
 const User = require('../models/user')
 const router = new express.Router()
 
@@ -56,7 +58,7 @@ router.get('/users/:id', async (req, res) => {
 //update
 router.patch('/users/:id', async (req, res) => {
 
-    //to convert object into an array of properties 
+    //to convert object into the strings of array of properties 
     const updates = Object.keys(req.body)
 
     const allowUpdates = ['name', 'email', 'password', 'age'];
@@ -68,7 +70,14 @@ router.patch('/users/:id', async (req, res) => {
     }
 
     try {
-        const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
+
+        const user = await User.findById(req.params.id);
+        updates.forEach((update) => user[update] = req.body[update]);
+
+        await user.save()
+
+        // findByIdAndUpdate bypasses Mongoose. it performs a direct operation on the database
+        // const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
 
         if (!user) {
             return res.status(404).send()
