@@ -62,33 +62,23 @@ router.get('/users/me', auth, async (req, res) => {
    res.send(req.user)
 })
 
-router.get('/users/:id', async (req, res) => {
-    const _id = req.params.id;
+// router.get('/users/:id', async (req, res) => {
+//     const _id = req.params.id;
 
-    try {
-        const user = await User.findById(_id);
+//     try {
+//         const user = await User.findById(_id);
         
-        if (!user) {
-                    return res.status(404).send()
-                }
-                res.send(user);
-    } catch (e) {
-        res.status(500).send();
-    }
-
-    // User.findById(_id).then((user) => {
-    //     if (!user) {
-    //         return res.status(404).send()
-    //     }
-
-    //     res.send(user);
-    // }).catch((e) => {
-    //     res.status(500).send();
-    // })
-})
+//         if (!user) {
+//                     return res.status(404).send()
+//                 }
+//                 res.send(user);
+//     } catch (e) {
+//         res.status(500).send();
+//     }
+// })
 
 //update
-router.patch('/users/:id', async (req, res) => {
+router.patch('/users/me', auth, async (req, res) => {
 
     //to convert object into the strings of array of properties 
     const updates = Object.keys(req.body)
@@ -103,32 +93,31 @@ router.patch('/users/:id', async (req, res) => {
 
     try {
 
-        const user = await User.findById(req.params.id);
-        updates.forEach((update) => user[update] = req.body[update]);
+        // const user = await User.findById(req.params.id);
+        updates.forEach((update) => req.user[update] = req.body[update]);
 
-        await user.save()
+        await req.user.save()
 
         // findByIdAndUpdate bypasses Mongoose. it performs a direct operation on the database
         // const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
 
-        if (!user) {
-            return res.status(404).send()
-        }
-
-        res.send(user)
+        res.send(req.user)
     } catch (e) {
         res.status(400).send(e)
     }
 })
 
-router.delete('/users/:id', async (req, res) => {
+router.delete('/users/me', auth, async (req, res) => {
     try {
-        const user = await User.findByIdAndDelete(req.params.id)
+        // const user = await User.findByIdAndDelete(req.user._id)
 
-        if (!user) {
-            return res.status(404).send()
-        }
-        res.send(user)
+        // if (!user) {
+        //     return res.status(404).send()
+        // }
+
+        await req.user.remove();
+        res.send(req.user);
+
     } catch (e) {
         res.status(500).send(e)
     }
