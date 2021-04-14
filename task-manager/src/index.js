@@ -28,14 +28,25 @@ app.listen(port, () => {
     console.log('server is up on port ', port)
 });
 
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 
-const myFunction = async () => {
-    const token = jwt.sign({ _id: 'abcd123' }, 'hello', { expiresIn: '7 days' });
-    console.log(token);
+// const myFunction = async () => {
+//     const token = jwt.sign({ _id: 'abcd123' }, 'hello', { expiresIn: '7 days' });
+//     console.log(token);
 
-    const data = jwt.verify(token, 'hello');
-    console.log(data)
+//     const data = jwt.verify(token, 'hello');
+//     console.log(data)
+// }
+
+// myFunction()
+
+const pet = {
+    name: 'mat'
 }
 
-myFunction()
+pet.toJSON = function () {
+    console.log(this)
+    return this
+}
+
+console.log(JSON.stringify(pet))
